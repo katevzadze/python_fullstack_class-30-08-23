@@ -1,2 +1,2 @@
 #my first project in Python
-print('Hello cats')
+print('Hello dogs!')
