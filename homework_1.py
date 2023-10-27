@@ -14,13 +14,16 @@ class Animal:
     def __str__(self) -> str:
         return f"Это {self.animal_type}."
 
-    def action(self) -> str:
-        return f"{self.animal_type} издает звук {self.animal_talk} и ест {self.animal_eat}."
+    def talk(self) -> str:
+        return f"{self.animal_type} издает звук {self.animal_talk}."
+
+    def eat(self) -> str:
+        return f"{self.animal_type} ест {self.animal_eat}."
 
 
 tiger = Animal("Тигр", "ррр", "мясо")
 cat = Animal("Кот", "мяу", "рыбу")
 caw = Animal("Корова", "му", "траву")
-print(tiger, tiger.action())
-print(cat, cat.action())
-print(caw, caw.action())
+print(tiger, tiger.talk(), tiger.eat())
+print(cat, cat.talk(), cat.eat())
+print(caw, caw.talk(), caw.eat())
