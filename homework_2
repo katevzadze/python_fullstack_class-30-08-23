@@ -28,7 +28,10 @@ class Library:
         return self
 
     def __getitem__(self, index):
-        return self.books[index]
+        books = self.books[index]
+        if type(books) == list:
+            return [book.__str__() for book in books]
+        return books
 
     def __contains__(self, title):
         for book in self.books:
@@ -49,3 +52,4 @@ if search_book in my_library:
     print(f"книга {search_book} содержится в библиотеке")
 else:
     print(f"книга {search_book} не содержится в библиотеке")
+print(my_library[1:])
