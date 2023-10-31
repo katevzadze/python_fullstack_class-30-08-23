@@ -1,0 +1,151 @@
+from enum import Enum
+import datetime
+
+# задание 2.1
+
+class Person:
+    def __init__(
+            self,
+            name: str,
+            age: str
+    ):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def from_birth_year(cls, name, birth_year):
+        age = datetime.date.today().year - birth_year
+        return cls(name, age)
+
+
+new_person = Person.from_birth_year("Александр", 2005)
+print("Задание 2.1")
+print(f"имя: {new_person.name}, возраст: {new_person.age}")
+
+# задание 2.2
+
+
+class Person:
+    population = 0
+
+    def __init__(
+            self,
+            name: str,
+            age: str
+    ):
+        self.name = name
+        self.age = age
+        Person.population += 1
+
+    @classmethod
+    def from_birth_year(cls, name, birth_year):
+        age = datetime.date.today().year - birth_year
+        return cls(name, age)
+
+    @classmethod
+    def nowadays_population(cls):
+        return (f"текущая популяция: {cls.population}")
+
+
+person_1 = Person.from_birth_year("Александр", 2005)
+person_2 = Person.from_birth_year("Мария", 2001)
+person_3 = Person.from_birth_year("Павел", 1992)
+person_4 = Person.from_birth_year("Анастасия", 1989)
+person_5 = Person.from_birth_year("Максим", 2015)
+print("Задание 2.2")
+print(Person.nowadays_population())
+
+# задание 2.3
+
+
+class Temperature:
+    @staticmethod
+    def celsius_to_fahrenheit(celsius):
+        fahrenheit = (celsius * 9/5) + 32
+        return (f"По Фарегейту: {fahrenheit}")
+
+    @staticmethod
+    def fahrenheit_to_celsius(fahrenheit):
+        celsius = (fahrenheit-32) * 5/9
+        return (f"По Цельсию {celsius}")
+
+
+print("Задание 2.3")
+print(Temperature.celsius_to_fahrenheit(0))
+print(Temperature.fahrenheit_to_celsius(32))
+
+
+# задание 2.4
+
+
+class VehicleType(Enum):
+    CAR = "car"
+    BOAT = "boat"
+    BIKE = "bike"
+
+
+class Moveable:
+    def move(self) -> None:
+        pass
+
+
+class Vehicle:
+    total_vehicles = 0
+
+    def __init__(
+            self,
+            speed: float
+    ) -> None:
+        self.speed = speed
+        Vehicle.total_vehicles += 1
+
+    @classmethod
+    def create_vehicle(cls, vehicle_type: VehicleType, speed: float) -> 'Vehicle':
+        if vehicle_type == VehicleType.CAR:
+            return Car(speed)
+        elif vehicle_type == VehicleType.BOAT:
+            return Boat(speed)
+        elif vehicle_type == VehicleType.BIKE:
+            return Bike(speed)
+        else:
+            raise ValueError("Неизвестный тип транспортного средства")
+
+    @staticmethod
+    def convert_speed_to_kmh(speed_mph: float) -> float:
+        return speed_mph * 1.60934
+
+    @classmethod
+    def display_total_vehicles(cls) -> None:
+        print(
+            f"Всего было создано {cls.total_vehicles} экземпляров таранспортных средств")
+
+
+class Car(Vehicle, Moveable):
+    def move(self) -> None:
+        current_speed = Vehicle.convert_speed_to_kmh(self.speed)
+        print(f"Скорость машины {current_speed} км/час")
+
+
+class Boat(Vehicle, Moveable):
+    def move(self) -> None:
+        print(f"Скорость лодки {self.speed} морских миль")
+
+
+class Bike(Vehicle, Moveable):
+    def move(self) -> None:
+        print(f"Скорость велосипеда {self.speed} км/час")
+
+
+def move_any_vehicle(vehicle: Moveable) -> None:
+    vehicle.move()
+
+
+car_1 = Vehicle.create_vehicle(VehicleType.CAR, 60)
+boat_1 = Vehicle.create_vehicle(VehicleType.BOAT, 25)
+bike_1 = Vehicle.create_vehicle(VehicleType.BIKE, 15)
+
+move_any_vehicle(car_1)
+move_any_vehicle(boat_1)
+move_any_vehicle(bike_1)
+
+Vehicle.display_total_vehicles()
