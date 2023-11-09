@@ -1,1 +1,50 @@
+from typing import Protocol
 
+
+class FileHandler(Protocol):
+    def read(self):
+        pass
+
+    def write(self, data: str):
+        pass
+
+
+class TextFileHandler(FileHandler):
+    def __init__(self, text_file):
+        self.text_file = text_file
+
+    def read(self):
+        with open(self.text_file, 'r') as file:
+            text = file.read()
+            print(f"Текстоввй файл прочитан: {text}")
+
+    def write(self, data: str):
+        with open(self.text_file, "w") as file:
+            file.write(data)
+            print("Текстовый файл записан")
+
+
+class BinaryFileHandler:
+    def __init__(self, text_file):
+        self.text_file = text_file
+
+    def read(self):
+        with open(self.text_file, 'rb') as file:
+            text = file.read()
+            print(f"Бинарный файл прочитан: {text}")
+
+    def write(self, data: bytes):
+        with open(self.text_file, "wb") as file:
+            file.write(data.encode('utf-8'))
+            print("Бинарный файл записан")
+
+
+def save_data(handler: FileHandler, data: str):
+    handler.write(data)
+    handler.read()
+
+
+text = TextFileHandler("some_file.txt")
+binary = BinaryFileHandler("some_file.bin")
+save_data(text, "Питон пригодится каждому в будущем")
+save_data(binary, "010101010101000")
